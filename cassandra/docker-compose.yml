@@ -1,0 +1,31 @@
+version: '3'
+
+services:
+  cassandra:
+    image: cassandra:latest
+    container_name: cassandra-container
+    ports:
+      - "9042:9042"   
+    environment:
+      - CASSANDRA_USER=${CASSANDRA_USER}
+      - CASSANDRA_PASSWORD=${CASSANDRA_PASSWORD}
+    volumes:
+      - cassandra-data:/var/lib/cassandra
+
+  cassandra-init:
+    image: cassandra:latest # contains cqlsh
+    depends_on:
+      - cassandra
+    volumes:
+      - ./init.cql:/init.cql:ro
+    command: >
+      bash -c "
+        until cqlsh cassandra 9042 -e 'DESCRIBE CLUSTER'; do
+          echo 'Waiting for Cassandra to become available...';
+          sleep 5;
+        done;
+        cqlsh cassandra 9042 -f /init.cql
+      "
+
+volumes:
+  cassandra-data:

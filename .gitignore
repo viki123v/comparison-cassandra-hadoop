@@ -1,4 +1,5 @@
-hbase/yelp_data/*
-!hbase/yelp_data/.gitkeep
+yelp_data/data/*
 .vscode/
-**/*.env
+**/*.env.sh
+__pycache__/
+cassandra-data/

@@ -1,0 +1,18 @@
+[project]
+name = "comparison-cassandra-hadoop"
+version = "0.1.0"
+requires-python = ">=3.13"
+dependencies = [
+    "kagglehub>=1.0.2",
+]
+
+[dependency-groups]
+dev = [
+    "ruff>=0.15.20",
+]
+
+[tool.uv.workspace]
+members = [
+    "hbase",
+    "cassandra",
+]
