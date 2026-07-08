@@ -1,2 +1,4 @@
 hbase/yelp_data/*
 !hbase/yelp_data/.gitkeep
+.vscode/
+**/*.env
