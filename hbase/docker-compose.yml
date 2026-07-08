@@ -1,0 +1,27 @@
+version: "3.8"
+
+services:
+  hbase:
+    image: dajobe/hbase
+    container_name: hbase
+    ports:
+      - "16000:16000"   # HBase Master
+      - "16010:16010"   # HBase Master Web UI
+      - "16020:16020"   # HBase RegionServer
+      - "16030:16030"   # HBase RegionServer Web UI
+      - "9090:9090"     # Thrift API (used by happybase)
+      - "9095:9095"     # Thrift Web UI
+      - "2181:2181"     # ZooKeeper
+    volumes:
+      - hbase_data:/data
+      - ./yelp_data:/yelp_data:ro
+    environment:
+      - HBASE_MANAGES_ZK=true
+    healthcheck:
+      test: ["CMD", "hbase", "status"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+
+volumes:
+  hbase_data:
