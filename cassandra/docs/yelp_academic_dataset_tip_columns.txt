@@ -1,0 +1,7 @@
+[
+  "business_id",
+  "compliment_count",
+  "date",
+  "text",
+  "user_id"
+]
