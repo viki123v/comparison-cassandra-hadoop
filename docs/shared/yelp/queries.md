@@ -1,4 +1,4 @@
-1. Get the closest business sorted by review_count.
+1. Get the closest business by (longitude,latitude) sorted by review_count.
 2. For the closest business find the tips that they received in the past 2months.
 3. For the closest business find the top 10 users which have the most tips in the past year. 
 4.  For a given user_id find the user's name. 
