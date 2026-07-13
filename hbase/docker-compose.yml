@@ -14,7 +14,7 @@ services:
       - "2181:2181"     # ZooKeeper
     volumes:
       - hbase_data:/data
-      - ./yelp_data:/yelp_data:ro
+      - ../yelp_data:/yelp_data:ro
     environment:
       - HBASE_MANAGES_ZK=true
     healthcheck:
