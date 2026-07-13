@@ -3,6 +3,7 @@ name = "comparison-cassandra-hadoop"
 version = "0.1.0"
 requires-python = ">=3.13"
 dependencies = [
+    "genson>=1.4.0",
     "kagglehub>=1.0.2",
 ]
 

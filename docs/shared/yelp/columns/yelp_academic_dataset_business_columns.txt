@@ -1,0 +1,16 @@
+[
+  "address",
+  "attributes",
+  "business_id",
+  "categories",
+  "city",
+  "hours",
+  "is_open",
+  "latitude",
+  "longitude",
+  "name",
+  "postal_code",
+  "review_count",
+  "stars",
+  "state"
+]
