@@ -1,5 +1,5 @@
 [project]
-name = "cassandra"
+name = "cassandra_nosql"
 version = "0.1.0"
 description = "Cassandra implementation of the yelp experiment"
 readme = "README.md"
@@ -13,7 +13,7 @@ dependencies = [
 ]
 
 [project.scripts]
-cassandra = "cassandra:main"
+cassandra = "cassandra_nosql:main"
 
 [build-system]
 requires = ["uv_build>=0.9.15,<0.10.0"]

@@ -8,7 +8,7 @@ PROJECT_ROOT="$(cd "$CASSANDRA_ROOT/.." && pwd)"
 
 JSON_SCHEMA_INPUT_PATH="$PROJECT_ROOT/yelp_data/data/output"
 ASSETS_PATH="$CASSANDRA_ROOT/assets"
-YELP_PY_MODELS_PATH="$CASSANDRA_ROOT/src/cassandra/models/yelp"
+YELP_PY_MODELS_PATH="$CASSANDRA_ROOT/src/cassandra_nosql/models/yelp"
 
 echo "[INFO][CHECK] uv exists"
 if ! command -v uv >/dev/null 2>&1; then
