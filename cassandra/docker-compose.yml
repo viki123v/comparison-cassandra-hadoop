@@ -17,14 +17,14 @@ services:
     depends_on:
       - cassandra
     volumes:
-      - ./init.cql:/init.cql:ro
+      - ./schema.cql:/schema.cql:ro
     command: >
       bash -c "
         until cqlsh cassandra 9042 -e 'DESCRIBE CLUSTER'; do
           echo 'Waiting for Cassandra to become available...';
           sleep 5;
         done;
-        cqlsh cassandra 9042 -f /init.cql
+        cqlsh cassandra 9042 -f /schema.cql
       "
 
 volumes:
