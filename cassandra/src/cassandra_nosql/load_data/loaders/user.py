@@ -1,8 +1,7 @@
 from pathlib import Path
 
 from cassandra_nosql.load_data.loaders.constants import YELP_JSON_DIR
-import msgspec
-
+from cassandra_nosql.load_data.loaders.utils import read_ndjson
 from cassandra_nosql.models.cassndra import User as CassandraUser
 from cassandra_nosql.models.yelp.user import User as YelpUser
     
@@ -18,15 +17,11 @@ def conversion(yelp_model: YelpUser) -> CassandraUser:
     return cassandra_model
 
 def convert(path: Path) -> list[CassandraUser]:
-    with open(path, "rb") as yelp_model_json:
-        yelp_models = msgspec.json.decode(
-            yelp_model_json.read(),
-            type=list[YelpUser],
-        )
-        cassandra_models = [conversion(yelp_model) for yelp_model in yelp_models]
+    yelp_models = read_ndjson(path, YelpUser)
+    cassandra_models = [conversion(yelp_model) for yelp_model in yelp_models]
 
-        for cassandra_model in cassandra_models:
-            cassandra_model.save()
+    for cassandra_model in cassandra_models:
+        cassandra_model.save()
 
     return cassandra_models
 
