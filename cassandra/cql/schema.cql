@@ -1,10 +1,3 @@
-CREATE KEYSPACE IF NOT EXISTS nosql
-WITH REPLICATION = {
-  'class': 'SimpleStrategy',
-  'replication_factor': 1
-};
-USE nosql; 
-
 CREATE TABLE IF NOT EXISTS nosql.user (
     username VARCHAR,
     id INT PRIMARY KEY,
