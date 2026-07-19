@@ -46,8 +46,11 @@ if ! command -v jq >/dev/null 2>&1; then
 fi
 
 TRIM_TARGETS_NAMES=(
-  "yelp_academic_dataset_review.json review.json 4"
-  "yelp_academic_dataset_user.json user.json 4"
+  "yelp_academic_dataset_review.json review.json 128"
+  "yelp_academic_dataset_user.json user.json 32"
+  "yelp_academic_dataset_tip.json tip.json 16"
+  "yelp_academic_dataset_business.json business.json 2"
+  "yelp_academic_dataset_checkin.json checkin.json 2"
 )
 TRIM_TARGETS=()
 
