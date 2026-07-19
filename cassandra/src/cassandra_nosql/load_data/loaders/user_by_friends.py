@@ -1,7 +1,7 @@
 from pathlib import Path
 
 from cassandra_nosql.load_data.loaders.constants import YELP_JSON_DIR
-from cassandra_nosql.load_data.loaders.utils import read_ndjson
+from cassandra_nosql.load_data.loaders.utils import handle_composite_object, read_ndjson
 from cassandra_nosql.models.cassndra import UserByFriends as CassandraUserByFriends
 from cassandra_nosql.models.yelp.user import User as YelpUser
 
@@ -10,7 +10,7 @@ def friend_ids(value: str) -> list[str]:
     if not value or value == "None":
         return []
 
-    return value.split(", ")
+    return handle_composite_object(value)
 
 
 def conversion(
