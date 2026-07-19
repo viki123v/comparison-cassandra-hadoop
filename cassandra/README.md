@@ -1,5 +1,8 @@
 # Creating the models 
 
-## Before you start 
-Run the shared/trim.sh. 
-If the yelp python modules don't exist, then use the scripts/create_models.sh script to create them. 
+## Before queries 
+Run `uv run poe bootstrap_cassandra`. This will execute the following
+- `uv run poe trim`
+    - Trims the data in the `yelp_data` 
+- `uv run poe load_data`
+    - Executes the `src.cassandra_nosql.load_data` module 
