@@ -26,14 +26,14 @@ CREATE TABLE IF NOT EXISTS nosql.review_by_user(
     review_id TEXT,
     reviewed_at DATE,
     stars INT,
-    PRIMARY KEY(user_id,review_id)
+    PRIMARY KEY(user_id,review_id,reviewed_at,stars)
 );
 
 create table if NOT EXISTS nosql.tips_by_business(
     tipped_at date,
     business_id text ,
     tip_id int, 
-    primary key(business_id, tip_id)
+    primary key(business_id, tip_id, tipped_at)
 );
 
 create table if NOT EXISTS nosql.checks_by_business(
