@@ -24,7 +24,7 @@ services:
           echo 'Waiting for Cassandra to become available...';
           sleep 5;
         done;
-        cqlsh cassandra 9042 -f cql/keyspace.cql
+        cqlsh cassandra 9042 -f schema.cql
       "
 
 volumes:
