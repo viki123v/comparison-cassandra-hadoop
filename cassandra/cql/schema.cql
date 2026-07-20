@@ -18,7 +18,7 @@ CREATE TABLE IF NOT EXISTS nosql.review_by_business(
     review_id TEXT,
     business_id TEXT,
     stars int, 
-    PRIMARY KEY(review_id,business_id)
+    PRIMARY KEY(business_id,review_id)
 );
 
 CREATE TABLE IF NOT EXISTS nosql.review_by_user(
@@ -46,7 +46,7 @@ create table if NOT EXISTS nosql.users_by_business(
   id text ,
   tip_business_id text,
   tipped_at date,
-  primary key(id,tip_business_id)
+  primary key(tip_business_id, id)
 );
 
 create table if NOT EXISTS nosql.user_by_personality_score(
