@@ -1,0 +1,71 @@
+Table tips_by_business {
+  tipped_at date
+  business_id int
+  tip_id int 
+}
+Table business {
+  longitude double
+  latitude double
+  id int
+  review_count int
+}
+Table users_by_business {
+  id int
+  tip_business_id int
+  tipped_at date 
+}
+Table review_by_business {
+  review_id int
+  business_id int
+  stars int
+}
+Table checks_by_business {
+  business_id int
+  checked_at date
+}
+Table user {
+  username text
+  id int
+  compliment_hot int
+  compliment_cut int
+  compliment_cool int
+  compliment_funny int
+}
+Table user_by_personality_score {
+  user_id int
+  friends int
+  elite int
+  cool int
+  fans int
+}
+Table review_by_user {
+  user_id int
+  review_id int
+  reviewed_at date
+  stars int
+}
+
+Table user_by_friends{ 
+  user_id int 
+  friend_id int 
+  frined_name text 
+}
+
+Table review {
+  id int 
+  stars int 
+  username text 
+}
+
+Ref: business.id < tips_by_business.business_id
+Ref: business.id < review_by_business.business_id
+Ref: business.id < checks_by_business.business_id
+Ref: user.id < users_by_business.id
+Ref: user.id < review_by_user.user_id
+Ref: user.id < user_by_personality_score.user_id
+Ref: business.id < users_by_business.tip_business_id
+Ref: user.id < user_by_friends.user_id 
+Ref: user.id < user_by_friends.friend_id
+Ref: user.username < review.username
+Ref: review.id < review_by_business.review_id
+Ref: review.id < review_by_user.review_id 
