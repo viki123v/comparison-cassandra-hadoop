@@ -3,3 +3,4 @@ yelp_data/data/*
 **/*.env.sh
 __pycache__/
 cassandra-data/
+.idea/
