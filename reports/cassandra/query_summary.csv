@@ -1,0 +1,11 @@
+database,query_id,query_name,measured_runs,success_count,failure_count,average_total_time_ms,median_total_time_ms,minimum_total_time_ms,maximum_total_time_ms,average_database_time_ms,average_processing_time_ms,row_count,notes
+Cassandra,1,relevant-business,10,10,0,674.53276,664.8837,637.7892,730.6153,528.40027,146.13241,1,The business table is scanned and distance is calculated in Python.
+Cassandra,2,recent-business-tips,10,10,0,1.16824,1.1631,1.0863,1.3078,1.11124,0.05695,1,Date filtering is performed in Python after reading the business partition. Only fields stored by Cassandra are returned.
+Cassandra,3,top-business-tippers,10,10,0,1.30105,1.30575,1.0891,1.5496,1.24125,0.05975,1,Repeated tips from one user to one business may have overwritten each other during loading. Ranking uses the rows stored in Cassandra.
+Cassandra,4,user-name,10,10,0,0.99225,0.96595,0.9347,1.1225,0.99103,0.00115,1,
+Cassandra,5,highest-star-business-review,10,10,0,1.97339,1.9414,1.8236,2.2582,1.77403,0.1993,1,Stars are sorted in Python; review ID is the deterministic tie-breaker.
+Cassandra,6,review-details,10,10,0,0.95286,0.93915,0.8388,1.1099,0.95138,0.00141,1,Review text is unavailable because it is not stored in the current Cassandra review table.
+Cassandra,7,user-perception,10,10,0,0.9804,0.97725,0.8822,1.1017,0.97836,0.00198,1,The physical compliment_cut column is exposed as compliment_cute.
+Cassandra,8,personality-ranking,10,10,0,359.05613,354.0232,344.5021,404.4061,272.99974,86.05635,1,"The stored user rows are scanned, scored, sorted, and ranked in Python."
+Cassandra,9,recent-user-reviews,10,10,0,1.03237,1.03615,0.9505,1.0924,1.00145,0.03085,4,Date filtering and star ranking are performed in Python after reading the user partition.
+Cassandra,10,user-friends,10,10,0,0.99868,0.9755,0.9298,1.1365,0.99465,0.00397,5,Only friend rows preserved by the loader are available; names may be blank because the dataset files were trimmed independently. Missing names in returned rows: 3.
