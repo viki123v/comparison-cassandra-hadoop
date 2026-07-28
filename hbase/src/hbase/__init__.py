@@ -1,2 +1,4 @@
 def main() -> None:
-    print("Hello from hbase!")
+    from hbase.load_data.__main__ import run
+
+    run()
