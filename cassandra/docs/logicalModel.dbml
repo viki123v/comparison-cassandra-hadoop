@@ -1,7 +1,9 @@
 Table tips_by_business {
   tipped_at date
-  business_id int
-  tip_id int 
+  business_id text
+  tip_id int
+  user_id text
+  tip_text text
 }
 Table business {
   longitude double
@@ -10,13 +12,14 @@ Table business {
   review_count int
 }
 Table users_by_business {
-  id int
-  tip_business_id int
-  tipped_at date 
+  id text
+  tip_business_id text
+  tipped_at date
+  tip_id int
 }
 Table review_by_business {
-  review_id int
-  business_id int
+  review_id text
+  business_id text
   stars int
 }
 Table checks_by_business {
@@ -32,15 +35,17 @@ Table user {
   compliment_funny int
 }
 Table user_by_personality_score {
-  user_id int
+  user_id text
   friends int
   elite int
   cool int
   fans int
+  personality_score double
+  global_rank int
 }
 Table review_by_user {
-  user_id int
-  review_id int
+  user_id text
+  review_id text
   reviewed_at date
   stars int
 }
@@ -52,9 +57,10 @@ Table user_by_friends{
 }
 
 Table review {
-  id int 
-  stars int 
-  username text 
+  id text
+  stars int
+  description text
+  username text
 }
 
 Ref: business.id < tips_by_business.business_id
@@ -68,4 +74,4 @@ Ref: user.id < user_by_friends.user_id
 Ref: user.id < user_by_friends.friend_id
 Ref: user.username < review.username
 Ref: review.id < review_by_business.review_id
-Ref: review.id < review_by_user.review_id 
+Ref: review.id < review_by_user.review_id

@@ -1,15 +1,9 @@
 import os
 
-from gevent import monkey
-
-# cassandra-driver's default asyncore reactor is unavailable on Python 3.13.
-# Patching before importing the driver lets it select its bundled gevent reactor.
-monkey.patch_all()
-
-from cassandra.cluster import Cluster  # noqa: E402
-from cassandra.cqlengine import connection  # noqa: E402
-from cassandra.policies import DCAwareRoundRobinPolicy  # noqa: E402
-from cassandra.query import dict_factory  # noqa: E402
+from cassandra.cluster import Cluster
+from cassandra.cqlengine import connection
+from cassandra.policies import DCAwareRoundRobinPolicy
+from cassandra.query import dict_factory
 
 
 def connect_to_cassandra(
@@ -32,7 +26,15 @@ def connect_to_cassandra(
         protocol_version=5,
         load_balancing_policy=DCAwareRoundRobinPolicy(local_dc=local_dc),
     )
-    session = cluster.connect(configured_keyspace)
+    try:
+        session = cluster.connect(configured_keyspace)
+    except Exception as error:
+        cluster.shutdown()
+        raise ConnectionError(
+            "Could not connect to Cassandra at "
+            f"{','.join(hosts)}:{configured_port} in keyspace "
+            f"{configured_keyspace}"
+        ) from error
     session.default_timeout = float(os.getenv("CASSANDRA_REQUEST_TIMEOUT", "30"))
     session.row_factory = dict_factory
     connection.set_session(session)
@@ -42,5 +44,7 @@ def connect_to_cassandra(
 def close_cassandra(session) -> None:
     """Close the session and its owning cluster."""
     cluster = session.cluster
-    session.shutdown()
-    cluster.shutdown()
+    try:
+        session.shutdown()
+    finally:
+        cluster.shutdown()

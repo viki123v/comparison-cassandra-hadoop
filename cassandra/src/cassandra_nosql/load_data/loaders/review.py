@@ -15,6 +15,7 @@ def conversion(
     cassandra_model = CassandraReview()
     cassandra_model.id = yelp_model.review_id
     cassandra_model.stars = int(yelp_model.stars)
+    cassandra_model.description = yelp_model.text
     cassandra_model.username = user.name if user else ""
     return cassandra_model
 

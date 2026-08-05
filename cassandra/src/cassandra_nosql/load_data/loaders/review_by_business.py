@@ -2,7 +2,9 @@ from pathlib import Path
 
 from cassandra_nosql.load_data.loaders.constants import YELP_JSON_DIR
 from cassandra_nosql.load_data.loaders.utils import read_ndjson
-from cassandra_nosql.models.cassndra import ReviewByBusiness as CassandraReviewByBusiness
+from cassandra_nosql.models.cassndra import (
+    ReviewByBusiness as CassandraReviewByBusiness,
+)
 from cassandra_nosql.models.yelp.review import Review as YelpReview
 
 

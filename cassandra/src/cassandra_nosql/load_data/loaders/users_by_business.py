@@ -7,17 +7,20 @@ from cassandra_nosql.models.cassndra import UsersByBusiness as CassandraUsersByB
 from cassandra_nosql.models.yelp.tip import Tip as YelpTip
 
 
-def conversion(yelp_model: YelpTip) -> CassandraUsersByBusiness:
+def conversion(tip_id: int, yelp_model: YelpTip) -> CassandraUsersByBusiness:
     cassandra_model = CassandraUsersByBusiness()
     cassandra_model.id = yelp_model.user_id
     cassandra_model.tip_business_id = yelp_model.business_id
     cassandra_model.tipped_at = date.fromisoformat(yelp_model.date[:10])
+    cassandra_model.tip_id = tip_id
     return cassandra_model
 
 
 def convert(path: Path) -> list[CassandraUsersByBusiness]:
     yelp_models = read_ndjson(path, YelpTip)
-    cassandra_models = [conversion(yelp_model) for yelp_model in yelp_models]
+    cassandra_models = [
+        conversion(tip_id, yelp_model) for tip_id, yelp_model in enumerate(yelp_models)
+    ]
 
     for cassandra_model in cassandra_models:
         cassandra_model.save()
