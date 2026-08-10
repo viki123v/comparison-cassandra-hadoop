@@ -1,41 +1,41 @@
-# HBase — Column-Family NoSQL (Yelp Dataset)
+# HBase Yelp experiment
 
-## Current State
-- HBase running via Docker (`dajobe/hbase` image)
-- 5 tables created: `business`, `review`, `user`, `checkin`, `tip`
-- Yelp dataset loaded in `yelp_data/` (not tracked in git)
-- Test import validated: 5 rows per table, queries returning correct data
+The HBase implementation uses HappyBase over Thrift and query-oriented tables
+whose row keys support the ten access patterns in
+`docs/shared/yelp/queries.md`.
 
-## Stack
-- HBase (pseudo-distributed via Docker)
-- Python + happybase (Thrift on port 9090)
-- Yelp Academic Dataset (~9GB, 5 JSON files)
+## Bootstrap
 
-## Setup
+Start HBase, then recreate the tables and load the trimmed Yelp data:
 
 ```bash
-# Start HBase
-docker-compose up -d
-
-# Install dependencies
-pip install happybase
-
-# Create tables
-python3 create_tables.py
+docker compose -f hbase/docker-compose.yml up -d
+uv run --package hbase poe -C hbase bootstrap_hbase
 ```
 
-## Files
-| File | Purpose |
-|---|---|
-| `docker-compose.yml` | HBase container config |
-| `create_tables.py` | Creates all 5 HBase tables with column families |
-| `yelp_data/` | Yelp dataset (not in git — add files manually) |
+Bootstrapping drops the experiment tables before loading them. Reload after
+changing loader columns or row-key formats.
 
-## Table Schema
-| Table | Row Key | Column Families |
-|---|---|---|
-| business | business_id | info, location, meta |
-| review | business_id#review_id | info, content |
-| user | user_id | info, stats |
-| checkin | business_id | data |
-| tip | business_id#index | info |
+## Run queries
+
+Run one query for diagnosis without writing the benchmark report:
+
+```bash
+uv run --package hbase hbase-query \
+  --query user-name \
+  --parameters-file hbase/query_parameters.json
+```
+
+Run all ten queries and write their median execution times:
+
+```bash
+uv run --package hbase hbase-query \
+  --all \
+  --parameters-file hbase/query_parameters.json \
+  --warmup-runs 2 \
+  --runs 10 \
+  --output reports/hbase/query_summary.csv
+```
+
+The report contains exactly `question_id` and `median_time_ms`. Connection
+setup, warm-ups, failed attempts, and diagnostic retries are not timed.
