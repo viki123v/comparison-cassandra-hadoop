@@ -31,28 +31,30 @@ class ReviewByBusiness(Model):
     __keyspace__ = KEYSPACE
     __table_name__ = "review_by_business"
 
-    review_id = columns.Text(primary_key=True)
-    business_id = columns.Text(primary_key=True)
-    stars = columns.Integer()
+    business_id = columns.Text(primary_key=True, partition_key=True)
+    stars = columns.Integer(primary_key=True, clustering_order="DESC")
+    review_id = columns.Text(primary_key=True, clustering_order="ASC")
 
 
 class ReviewByUser(Model):
     __keyspace__ = KEYSPACE
     __table_name__ = "review_by_user"
 
-    user_id = columns.Text(primary_key=True)
-    review_id = columns.Text(primary_key=True)
-    reviewed_at = columns.Date()
-    stars = columns.Integer()
+    user_id = columns.Text(primary_key=True, partition_key=True)
+    stars = columns.Integer(primary_key=True, clustering_order="DESC")
+    reviewed_at = columns.Date(primary_key=True, clustering_order="DESC")
+    review_id = columns.Text(primary_key=True, clustering_order="ASC")
 
 
 class TipsByBusiness(Model):
     __keyspace__ = KEYSPACE
     __table_name__ = "tips_by_business"
 
-    business_id = columns.Text(primary_key=True)
-    tip_id = columns.Integer(primary_key=True)
-    tipped_at = columns.Date()
+    business_id = columns.Text(primary_key=True, partition_key=True)
+    tipped_at = columns.Date(primary_key=True, clustering_order="DESC")
+    tip_id = columns.Integer(primary_key=True, clustering_order="ASC")
+    user_id = columns.Text()
+    tip_text = columns.Text()
 
 
 class ChecksByBusiness(Model):
@@ -67,9 +69,10 @@ class UsersByBusiness(Model):
     __keyspace__ = KEYSPACE
     __table_name__ = "users_by_business"
 
-    id = columns.Text(primary_key=True)
-    tip_business_id = columns.Text(primary_key=True)
-    tipped_at = columns.Date()
+    tip_business_id = columns.Text(primary_key=True, partition_key=True)
+    tipped_at = columns.Date(primary_key=True, clustering_order="DESC")
+    id = columns.Text(primary_key=True, clustering_order="ASC")
+    tip_id = columns.Integer(primary_key=True, clustering_order="ASC")
 
 
 class UserByPersonalityScore(Model):
@@ -81,6 +84,8 @@ class UserByPersonalityScore(Model):
     elite = columns.Integer()
     cool = columns.Integer()
     fans = columns.Integer()
+    personality_score = columns.Double()
+    global_rank = columns.Integer()
 
 
 class UserByFriends(Model):
@@ -98,4 +103,5 @@ class Review(Model):
 
     id = columns.Text(primary_key=True)
     stars = columns.Integer()
+    description = columns.Text()
     username = columns.Text()

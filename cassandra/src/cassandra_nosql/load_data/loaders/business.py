@@ -6,6 +6,7 @@ from cassandra_nosql.load_data.loaders.utils import read_ndjson
 from cassandra_nosql.models.cassndra import Business as CassandraBusiness
 from cassandra_nosql.models.yelp.business import Business as YelpBusiness
 
+
 def convert(path: Path) -> list[CassandraBusiness]:
     yelp_models = read_ndjson(path, YelpBusiness)
     cassandra_models = [conversion(yelp_model) for yelp_model in yelp_models]
@@ -15,6 +16,7 @@ def convert(path: Path) -> list[CassandraBusiness]:
 
     return cassandra_models
 
+
 def conversion(yelp_model: YelpBusiness) -> CassandraBusiness:
     cassandra_model = CassandraBusiness()
     cassandra_model.id = yelp_model.business_id
@@ -22,6 +24,7 @@ def conversion(yelp_model: YelpBusiness) -> CassandraBusiness:
     cassandra_model.latitude = Decimal(str(yelp_model.latitude))
     cassandra_model.review_count = int(yelp_model.review_count)
     return cassandra_model
+
 
 def load():
     convert(YELP_JSON_DIR / "business.json")

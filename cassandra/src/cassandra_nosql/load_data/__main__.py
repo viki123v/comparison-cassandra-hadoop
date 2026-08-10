@@ -36,7 +36,7 @@ def import_data():
     semaphore = Semaphore(3)
 
     loading_tasks = [
-        # Cannot use modules, not pickle friendly 
+        # Cannot use modules, not pickle friendly
         ("business", "Business"),
         ("checks_by_business", "Checks by Business"),
         ("review_by_business", "Review by Business"),
@@ -60,12 +60,13 @@ def import_data():
         process.start()
         processes.append((task_name, process))
 
-    # If processes=[p1] then main process won't wait for the semaphore 
+    # If processes=[p1] then main process won't wait for the semaphore
     # This assures that the main process doesn't exit until all children are done
     for task_name, process in processes:
         process.join()
         if process.exitcode:
             logger.error("Loader %s exited with code %s", task_name, process.exitcode)
+
 
 def run():
     configure_logging()
