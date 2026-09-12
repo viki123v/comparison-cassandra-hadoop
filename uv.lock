@@ -220,10 +220,16 @@ version = "0.1.0"
 source = { editable = "hbase" }
 dependencies = [
     { name = "happybase" },
+    { name = "msgspec" },
+    { name = "poethepoet" },
 ]
 
 [package.metadata]
-requires-dist = [{ name = "happybase", specifier = ">=1.3.0" }]
+requires-dist = [
+    { name = "happybase", specifier = ">=1.3.0" },
+    { name = "msgspec", specifier = ">=0.21.1" },
+    { name = "poethepoet", specifier = ">=0.48.0" },
+]
 
 [[package]]
 name = "idna"

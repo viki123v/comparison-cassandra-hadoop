@@ -1,27 +1,46 @@
-version: "3.8"
-
 services:
   hbase:
-    image: dajobe/hbase
+    image: openeuler/hbase:2.6.5-oe2403sp3
     container_name: hbase
+    entrypoint: ["/bin/bash", "/docker-entrypoint.sh"]
+
+    environment:
+      HBASE_HOME: /usr/local/hbase
+      HBASE_IDENT_STRING: hbase
+      HBASE_LOG_DIR: /data/logs
+      HBASE_MANAGES_ZK: "true"
+      HBASE_PID_DIR: /tmp/hbase-pids
+      JAVA_HOME: /usr/lib/jvm/java-11-openjdk
+
     ports:
-      - "16000:16000"   # HBase Master
-      - "16010:16010"   # HBase Master Web UI
-      - "16020:16020"   # HBase RegionServer
-      - "16030:16030"   # HBase RegionServer Web UI
-      - "9090:9090"     # Thrift API (used by happybase)
-      - "9095:9095"     # Thrift Web UI
-      - "2181:2181"     # ZooKeeper
+      - "16000:16000" # Master API
+      - "16010:16010" # Master web interface
+      - "16020:16020" # RegionServer API
+      - "16030:16030" # RegionServer web interface
+      - "9090:9090" # Thrift API used by HappyBase
+      - "9095:9095" # Thrift status page
+      - "2181:2181" # ZooKeeper
+
     volumes:
       - hbase_data:/data
-      - ../yelp_data:/yelp_data:ro
-    environment:
-      - HBASE_MANAGES_ZK=true
+      - ./docker/hbase-site.xml:/usr/local/hbase/conf/hbase-site.xml:ro
+      - ./docker/entrypoint.sh:/docker-entrypoint.sh:ro
+
+    stop_grace_period: 60s
+
     healthcheck:
-      test: ["CMD", "hbase", "status"]
-      interval: 30s
-      timeout: 10s
-      retries: 5
+      test:
+        - CMD
+        - curl
+        - --fail
+        - --silent
+        - --output
+        - /dev/null
+        - http://127.0.0.1:9095/
+      start_period: 120s
+      interval: 10s
+      timeout: 5s
+      retries: 12
 
 volumes:
   hbase_data:
