@@ -41,6 +41,7 @@ def load() -> int:
                     columns(
                         review_id=review.review_id,
                         stars=stars,
+                        description=review.text,
                         username=users_by_id.get(review.user_id, ""),
                     ),
                 )

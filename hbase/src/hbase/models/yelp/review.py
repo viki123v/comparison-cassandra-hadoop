@@ -7,3 +7,4 @@ class Review(Struct):
     business_id: str
     stars: float
     date: str
+    text: str

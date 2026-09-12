@@ -26,6 +26,7 @@ def load() -> int:
                         tip_id=tip_id,
                         tipped_at=tipped_at.isoformat(),
                         user_id=tip.user_id,
+                        tip_text=tip.text,
                     ),
                 )
                 loaded += 1
